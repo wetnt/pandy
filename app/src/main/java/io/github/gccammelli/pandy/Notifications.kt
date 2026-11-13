@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
+import io.github.gccammelli.pandy.ui.Zh
 import io.github.gccammelli.pandy.ui.printer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,12 +37,12 @@ const val EXTRA_ACTION = "action"
 const val EXTRA_NOTIF_ID = "notif_id"
 
 private fun Context.notifications() = getSystemService(NotificationManager::class.java).also { nm ->
-    nm.createNotificationChannel(NotificationChannel(ALERTS, "Print alerts", NotificationManager.IMPORTANCE_HIGH))
-    val critical = NotificationChannel(ALERTS_CRITICAL, "Critical printer alerts", NotificationManager.IMPORTANCE_HIGH).apply {
+    nm.createNotificationChannel(NotificationChannel(ALERTS, Zh.of("Print alerts"), NotificationManager.IMPORTANCE_HIGH))
+    val critical = NotificationChannel(ALERTS_CRITICAL, Zh.of("Critical printer alerts"), NotificationManager.IMPORTANCE_HIGH).apply {
         enableVibration(true)
     }
     nm.createNotificationChannel(critical)
-    nm.createNotificationChannel(NotificationChannel(WATCH, "Background connection", NotificationManager.IMPORTANCE_LOW))
+    nm.createNotificationChannel(NotificationChannel(WATCH, Zh.of("Background connection"), NotificationManager.IMPORTANCE_LOW))
 }
 
 private fun Context.openPandy() = PendingIntent.getActivity(
@@ -121,8 +122,8 @@ class AndroidNotifier(private val ctx: Context) : Notifier {
 
         val builder = NotificationCompat.Builder(ctx, channel)
             .setSmallIcon(R.drawable.ic_stat)
-            .setContentTitle(event.title)
-            .setContentText(event.text)
+            .setContentTitle(Zh.of(event.title))
+            .setContentText(Zh.of(event.text))
             .setContentIntent(ctx.openPandy())
             .setAutoCancel(true)
             .setOnlyAlertOnce(repeat)
@@ -131,7 +132,7 @@ class AndroidNotifier(private val ctx: Context) : Notifier {
 
         for (action in event.actions) {
             val actIntent = actionIntent(ctx, event.serial.orEmpty(), action.id, notifId)
-            val actionBuilder = NotificationCompat.Action.Builder(R.drawable.ic_stat, action.label, actIntent)
+            val actionBuilder = NotificationCompat.Action.Builder(R.drawable.ic_stat, Zh.of(action.label), actIntent)
             if (action.id == "stop") {
                 actionBuilder.setAuthenticationRequired(true)
             }

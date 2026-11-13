@@ -1,5 +1,7 @@
 package io.github.gccammelli.pandy
 
+import io.github.gccammelli.pandy.ui.Zh
+
 import android.annotation.SuppressLint
 import android.net.Uri
 import android.webkit.CookieManager
@@ -73,7 +75,7 @@ actual fun WebPage(url: String, modifier: Modifier, onDownload: ((WebDownload) -
                 }
             }
             fun validToken(token: String) = token == bridgeToken
-            fun toast(message: String) = android.widget.Toast.makeText(ctx, message.take(200), android.widget.Toast.LENGTH_LONG).show()
+            fun toast(message: String) = android.widget.Toast.makeText(ctx, Zh.of(message).take(200), android.widget.Toast.LENGTH_LONG).show()
             fun trustedFile(url: String): Boolean {
                 if (!url.startsWith("https://") || url.any { it == '\\' || it == '@' || it.isWhitespace() }) return false
                 return Uri.parse(url).host?.lowercase()?.let { it.endsWith(".bblmw.com") || it == "makerworld.com" || it.endsWith(".makerworld.com") } == true
@@ -87,7 +89,7 @@ actual fun WebPage(url: String, modifier: Modifier, onDownload: ((WebDownload) -
                 val fromSite = sitePage.get()
                 val named = if (fromSite && bytes != null && !isPrintableModel(name) && looksLikeStl(bytes)) name.substringBeforeLast('.') + ".stl" else name
                 if (bytes != null) printPressed(asksPrintIntent(printSheet, fromSite, named, state?.canPrint == true)) { pressed -> onDownload?.invoke(WebDownload(null, named, null, bytes, printSheet || pressed)) } else
-                    android.widget.Toast.makeText(ctx, "Couldn't read that download", android.widget.Toast.LENGTH_LONG).show()
+                    android.widget.Toast.makeText(ctx, Zh.of("Couldn't read that download"), android.widget.Toast.LENGTH_LONG).show()
             }
             fun fetchInPage(name: String, url: String): Boolean {
                 val n = org.json.JSONObject.quote(name)

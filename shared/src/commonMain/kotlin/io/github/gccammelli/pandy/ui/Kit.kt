@@ -105,7 +105,7 @@ fun AppTheme(content: @Composable () -> Unit) {
 
 @Composable
 fun T(text: String, size: TextUnit = 16.sp, color: Color = C.Text, weight: FontWeight = FontWeight.Normal, modifier: Modifier = Modifier, align: TextAlign? = null, lh: TextUnit = TextUnit.Unspecified, maxLines: Int = Int.MAX_VALUE) =
-    Text(text, modifier, color = color, style = TextStyle(fontSize = size, fontWeight = weight, lineHeight = lh), textAlign = align, maxLines = maxLines, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+    Text(Zh.of(text), modifier, color = color, style = TextStyle(fontSize = size, fontWeight = weight, lineHeight = lh), textAlign = align, maxLines = maxLines, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
 
 /** White screen with a centred title and a back chevron, as on Handy's detail pages. */
 @Composable

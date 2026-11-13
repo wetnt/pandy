@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import io.github.gccammelli.pandy.ui.Zh
 import android.graphics.Color
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -173,7 +174,7 @@ open class MainActivity : ComponentActivity(), PlatformUi {
 
     override fun openApp(androidPackage: String, storeUrl: String) =
         startActivity(packageManager.getLaunchIntentForPackage(androidPackage) ?: Intent(Intent.ACTION_VIEW, Uri.parse(storeUrl)))
-    override fun toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    override fun toast(message: String) = Toast.makeText(this, Zh.of(message), Toast.LENGTH_LONG).show()
 
     override fun pickImage(done: (ByteArray?) -> Unit) {
         pendingPick = done
